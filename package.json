@@ -1,0 +1,22 @@
+{
+  "name": "backend-tugas",
+  "version": "1.0.0",
+  "description": "Project backend untuk tugas mata kuliah pemrograman web lanjut.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernando-ph/backend-tugas.git"
+  },
+  "author": "Fernando P.H. Lumban Gaol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fernando-ph/backend-tugas/issues"
+  },
+  "homepage": "https://github.com/fernando-ph/backend-tugas#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
