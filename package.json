@@ -18,6 +18,7 @@
   "homepage": "https://github.com/fernando-ph/backend-tugas#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mysql": "^2.18.1",
     "tedious": "^11.0.8"
   }
 }
