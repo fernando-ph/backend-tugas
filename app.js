@@ -2,17 +2,16 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const {connection} = require('./db');
 
 // menggunakan middleware cors untuk mengatasi maasalah share origin
 app.use(cors());
-// menggunakan bodyParses untuk memudahkan proses marshaling
+// menggunakan express.json() untuk memudahkan proses marshaling
 app.use(express.json());
 
 // endpoint untuk mendapatkan data product
 app.get('/products', async function(req, res) {
-    connection.query("SELECT name, stock FROM products", function(err, rows, fields) {
+    connection.query("SELECT id, name, stock FROM products", function(err, rows, fields) {
         if (err) {
             res.status(500).send({
                 status: 500,
@@ -76,6 +75,52 @@ app.post('/products', function(req, res) {
             message: 'Berhasil menambahkan product'
         });
         return
+    });
+})
+
+app.delete('/products/:id', function(req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    const productId = req.params.id;
+
+    if (productId == null || isNaN(productId)) {
+        res.status(400).send({
+            status: 400,
+            message: 'Pastikan product id valid'
+        })
+        return
+    }
+
+    connection.query("DELETE FROM products WHERE id = ?", [productId], function(err, rows, fields) {
+        if (err) {
+            console.log(err);
+            res.status(500).send({
+                message: 'Terjadi kesalahan'
+            });
+            return
+        }
+
+        const affectedRows = rows.affectedRows;
+        if (affectedRows == 0) {
+            res.status(404).send({
+                status: 404,
+                message: `Tidak terdapat product dengan id: ${productId}`
+            })
+            return
+        }
+
+        // response ini akan terpanggil jika terdapat id yang sama dalam table (affected > 1)
+        if (affectedRows != 1) {
+            res.status(500).send({
+                status: 404,
+                message: 'Terdapat kesahalan.'
+            })
+            return
+        } else if (affectedRows == 1) {
+            res.json({
+                status: 200,
+                message: `Berhasil menghapus product dengan id: ${productId}`
+            })
+        }
     });
 })
 
