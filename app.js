@@ -50,6 +50,12 @@ app.post('/products', function(req, res) {
             status: 400,
             message: "Pastikan nama product di-isi."
         })
+        else if (body === null && body==""){
+             res.status(400).send({
+            status: 400,
+            message: "Pastikan nama product di-isi."
+            
+        }
         return
     }
 
